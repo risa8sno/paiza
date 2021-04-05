@@ -1,0 +1,36 @@
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) {
+        // 自分の得意な言語で
+        // Let's チャレンジ！！
+        Scanner sc = new Scanner(System.in);
+        String line = sc.nextLine();
+        for (int i = 0; i < Integer.parseInt(line); i++) {
+            String word = sc.nextLine();
+            if (word.substring(word.length() - 1).equals("s") ||
+                word.substring(word.length() - 1).equals("o") ||
+                word.substring(word.length() - 1).equals("x") ||
+                word.substring(word.length() - 2).equals("sh") ||
+                word.substring(word.length() - 2).equals("ch")){
+                word = word + "es";
+            } else if (word.substring(word.length() - 1).equals("f")) {
+                word = word.substring(0, word.length() - 1) + "ves";
+            } else if (word.substring(word.length() - 2).equals("fe")) {
+                word = word.substring(0, word.length() - 2) + "ves";
+            } else if (word.substring(word.length() - 1).equals("y") &&
+                        (!(word.substring(word.length() - 2, word.length() - 1).equals("a")) &&
+                        !(word.substring(word.length() - 2, word.length() - 1).equals("i")) &&
+                        !(word.substring(word.length() - 2, word.length() - 1).equals("u")) &&
+                        !(word.substring(word.length() - 2, word.length() - 1).equals("e")) &&
+                        !(word.substring(word.length() - 2, word.length() - 1).equals("o"))
+                        )) {
+                word = word.substring(0, word.length() - 1) + "ies";
+            } else {
+                word = word + "s";
+            }
+            System.out.println(word);
+        }
+    }
+}
