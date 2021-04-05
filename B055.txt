@@ -1,0 +1,44 @@
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) {
+        // ©•ª‚Ì“¾ˆÓ‚ÈŒ¾Œê‚Å
+        // Let's ƒ`ƒƒƒŒƒ“ƒWII
+        Scanner sc = new Scanner(System.in);
+        String line = sc.nextLine();
+        
+        // 1s–Ú
+        String[] data = line.split(" ");
+        int cnt = Integer.parseInt(data[0]);    // ‘ä”
+        int kyori = Integer.parseInt(data[1]);  // ‹——£
+        String unchin = "";
+
+        // 2s–ÚˆÈ~
+        for (int i = 0; i < cnt; i++) {
+            data = sc.nextLine().split(" ");
+            int hatsuKyori = Integer.parseInt(data[0]);   // ‰æ‚è‹——£
+            int hatsuFee = Integer.parseInt(data[1]);     // ‰æ‚è‰^’À
+            int addKyori = Integer.parseInt(data[2]);     // ‰ÁZ‹——£
+            int addFee = Integer.parseInt(data[3]);       // ‰ÁZ‰^’À
+            
+            int sabun = kyori - hatsuKyori;
+            int add = 0;
+            if (sabun > addKyori) {
+                add = (sabun / addKyori + 1) * addFee;
+            } else if (sabun == addKyori) {
+                add = sabun / addKyori * addFee;
+            } else if (sabun < addKyori & sabun > 0) {
+                add = addFee;
+            }
+
+            if (i == 0) {
+                unchin = Integer.toString(hatsuFee + add);
+            } else {
+                unchin = unchin + " " + Integer.toString(hatsuFee + add);
+            }
+        }
+        System.out.println(unchin);
+    }
+}
+

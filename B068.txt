@@ -1,0 +1,61 @@
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) {
+        // 自分の得意な言語で
+        // Let's チャレンジ！！
+        Scanner sc = new Scanner(System.in);
+        String[] line = sc.nextLine().split("[\\s]");   // 1行目(行列数)の文字列分割
+        int h = Integer.parseInt(line[0]);  // 行数
+        int w = Integer.parseInt(line[1]);  // 列数
+        Boolean flg = false;    // 半分に分けられるかの判別フラグ
+        ArrayList<String> answerList = new ArrayList<>();    // 出力値格納リスト
+
+        // 列数for
+        for (int i = 0; i < h; i++) {
+            String[] lString = sc.nextLine().split("[\\s]");  // 2行目以降の文字列分割
+            int sum = 0;        // 1行分の合計値
+            int tempSum = 0;    // 左から足した合計値
+            String tempList = "";    // 出力値一時格納
+            flg = false;
+
+            // 1行文の合計値を算出
+            for (int j = 0; j < w; j++) {
+                sum = sum + Integer.parseInt(lString[j]);
+            }
+
+            // 左端から合計していく
+            for (int j = 0; j < w; j++) {
+                tempSum = tempSum + Integer.parseInt(lString[j]);
+                
+                // 合計値が総数の半分の場合
+                if (tempSum == sum / 2) {
+                    flg = true;
+                    tempList = tempList +"A";
+                // 合計値が半分未満の場合
+                } else if (tempSum < sum / 2) {
+                    tempList = tempList +"A";
+                // 合計値が半分より大きい場合
+                } else {
+                    tempList = tempList +"B";
+                }
+            }
+
+            // 半分に分けられなかった場合ループを抜ける
+            if (flg == false) {
+                break;
+            } else {
+                answerList.add(tempList);
+            }
+        }
+        if (flg == false) {
+            System.out.println("No");
+        } else {
+            System.out.println("Yes");
+            for (int i = 0; i < answerList.size(); i++) {
+                System.out.println(answerList.get(i));
+            }
+        }
+    }
+}

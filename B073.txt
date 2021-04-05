@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] line = sc.nextLine().split(" "); 
+        int tree = Integer.parseInt(line[0]);           // 1行目：木の本数
+        int light = Integer.parseInt(line[1]);          // 1行目：基準の個数
+
+        String[] nowLight = sc.nextLine().split(" ");   // 2行目：初期ライト個数
+        int cnt = Integer.parseInt(sc.nextLine());      // 3行目：調査回数
+        // 調査回数分ループ
+        for (int i = 0; i < cnt; i++) {
+            int lightSum = 0;
+            line = sc.nextLine().split(" ");            // 4行目以降：調査区間
+            int kukanFrom = Integer.parseInt(line[0]);  // 4行目：調査区間From
+            int kukanTo = Integer.parseInt(line[1]);    // 4行目：調査区間To
+            // 調査区間分ループしてライトの合計値を求める
+            for (int j = 0; j < line.length; j++) {
+                if (j == 0) {
+                    lightSum = Integer.parseInt(nowLight[kukanFrom]);
+                } else {
+                    lightSum = lightSum + Integer.parseInt(nowLight[kukanFrom + 1]);
+                }
+            }
+            if (lightSum / (kukanTo - kukanFrom + 1) < light) {
+                for (int j = 0; j < line.length; j++) {
+                        nowLight[kukanFrom] = nowLight[kukanFrom] + Math.ceil(light - lightSum / (kukanTo - kukanFrom + 1));
+                    } else {
+                        nowLight[kukanFrom] = nowLight[kukanFrom] + Math.ceil(light - lightSum / (kukanTo - kukanFrom + 1));
+                    }
+                }
+        }
+        System.out.println(Math.ceil(4.2 - 6));
+    }
+}
