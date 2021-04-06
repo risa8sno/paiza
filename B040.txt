@@ -1,0 +1,44 @@
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = "abcdefghijklmnopqrstuvwxyz";      // 基準文字列
+        String[] kijun = str.split("");                 // 基準文字列を分割して配列に格納
+        String[] line = sc.nextLine().split(" ");       // 1行目：スペースで分割
+        Integer kaisu = Integer.parseInt(line[0]);                         // 1行目：変換回数
+        String[] convertMoji = line[1].split("");       // 1行目：変換文字列
+        String[] mojiretsu = sc.nextLine().split(" ");  // 2行目：スペースで分割
+        int position = 0;
+        String answer = "";
+
+        // 単語分for
+        for (int i = 0; i < mojiretsu.length; i++) {
+            String[] word = mojiretsu[i].split("");
+    
+            // 単語の文字数分for
+            for (int j = 0; j < word.length; j++) {
+                String character = word[j];     // 単語のj番目の文字
+
+                // 変換回数分for
+                for (int n = 0; n < kaisu; n++) {
+
+                    // 変換文字列分for
+                    for (int k = 0; k < convertMoji.length; k++) {
+                        // characterが変換文字列の何番目か
+                        if (convertMoji[k].equals(character)) {
+                            character = kijun[k];
+                            break;
+                        }
+                    }
+                }
+                answer = answer + character;
+            }
+            if (i != mojiretsu.length - 1) {
+                answer = answer + " ";
+            }
+        }
+        System.out.println(answer);
+    }
+}
