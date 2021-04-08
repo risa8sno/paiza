@@ -1,0 +1,52 @@
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] line = sc.nextLine().split(" ");
+        int x = Integer.parseInt(line[0]);    // 1行目：X座標
+        int y = Integer.parseInt(line[1]);    // 1行目：Y座標
+
+        line = sc.nextLine().split(" ");
+        int fCnt = Integer.parseInt(line[0]);     // 2行目：前方向
+        int rCnt = Integer.parseInt(line[1]);     // 2行目：右方向
+        int bCnt = Integer.parseInt(line[2]);     // 2行目：後方向
+        int lCnt = Integer.parseInt(line[3]);     // 2行目：左方向
+
+        int cnt = Integer.parseInt(sc.nextLine());    // 3行目：命令数
+        
+        int muki = 0;   // 最初の方向
+
+        for (int i = 0; i < cnt; i++) {
+            line = sc.nextLine().split(" ");
+            String meirei = line[0];    // 4行目：命令
+            String houkou = line[1];    // 4行目：方向
+
+            // 移動の場合
+            if (meirei.equals("m")) {
+                // if (muki.equals(houkou)) {
+                    
+                // }
+
+            // 方向転換の場合
+            } else {
+                if (houkou.equals("R")) {
+                    muki = muki + 1;
+                } else if (houkou.equals("B")) {
+                    muki = muki + 2;
+                } else {
+                    muki = muki - 1;
+                }
+                
+                // 数字を調整
+                if (muki < 0) {
+                    muki = muki + 4;
+                } else if (muki > 3) {
+                    muki = muki - 3;
+                }
+            }
+        }
+        System.out.println(muki);
+    }
+}
