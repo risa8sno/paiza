@@ -1,0 +1,49 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int cnt = Integer.parseInt(sc.nextLine());  // 行列数
+
+        // 一辺の合計値を求める
+        int lineSum = 0;
+        int sum = 0;
+        for (int i = 1; i <= cnt*cnt; i++) {
+            sum = sum + i;
+        }
+        lineSum = sum / cnt;
+
+        String line;
+        String temp;
+        String[] newLine = new String[cnt];
+
+        for (int i = 0; i < cnt; i++) {
+            line = sc.nextLine();   // 次の行
+            newLine = line.split(" ");
+            temp = "";
+            sum = 0;
+
+            // 行の合計値を求める
+            for (int j = 0; j < cnt; j++) {
+                sum = sum + Integer.parseInt(newLine[j]);
+            }
+
+            // 行の合計値が一辺の合計値よりも小さい場合
+            if (sum < lineSum) {
+                for (int j = 0; j < cnt; j++) {
+                    if (Integer.parseInt(newLine[j]) == 0) {
+                        newLine[j] = String.valueOf(lineSum - sum);
+                    }
+                    if (j == 0) {
+                        temp = newLine[j];
+                    } else {
+                        temp = temp + " " + newLine[j];
+                    }
+                }
+                System.out.println(temp);
+            } else {
+                System.out.println(line);
+            }
+        }
+    }
+}
