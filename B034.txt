@@ -15,7 +15,7 @@ public class Main {
         int lCnt = Integer.parseInt(line[3]);     // 2行目：左方向
 
         int cnt = Integer.parseInt(sc.nextLine());    // 3行目：命令数
-        
+
         int muki = 0;   // 最初の方向
 
         for (int i = 0; i < cnt; i++) {
@@ -25,9 +25,47 @@ public class Main {
 
             // 移動の場合
             if (meirei.equals("m")) {
-                // if (muki.equals(houkou)) {
-                    
-                // }
+                if (houkou.equals("F")) {
+                    if (muki == 0) {
+                        y = y + fCnt;
+                    } else if (muki == 1) {
+                        x = x + fCnt;
+                    } else if (muki == 2) {
+                        y = y - fCnt;
+                    } else {
+                        x = x - fCnt;
+                    }
+                } else if (houkou.equals("R")) {
+                    if (muki == 0) {
+                        x = x + rCnt;
+                    } else if (muki == 1) {
+                        y = y - rCnt;
+                    } else if (muki == 2) {
+                        x = x - rCnt;
+                    } else {
+                        y = y + rCnt;
+                    }
+                } else if (houkou.equals("B")) {
+                    if (muki == 0) {
+                        y = y - bCnt;
+                    } else if (muki == 1) {
+                        x = x - bCnt;
+                    } else if (muki == 2) {
+                        y = y + bCnt;
+                    } else {
+                        x = x + bCnt;
+                    }
+                } else {
+                    if (muki == 0) {
+                        x = x - lCnt;
+                    } else if (muki == 1) {
+                        y = y + lCnt;
+                    } else if (muki == 2) {
+                        x = x + lCnt;
+                    } else {
+                        y = y - lCnt;
+                    }
+                }
 
             // 方向転換の場合
             } else {
@@ -47,6 +85,6 @@ public class Main {
                 }
             }
         }
-        System.out.println(muki);
+        System.out.println(x + " " + y);
     }
 }
