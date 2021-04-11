@@ -1,0 +1,82 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1s–ÚFŠel”‚ğæ“¾
+        String[] temp = sc.nextLine().split(" ");
+        int applicantCnt = Integer.parseInt(temp[0]);   // Œó•âÒ”
+        int vote = Integer.parseInt(temp[1]);           // —LŒ Ò”
+        int speech = Integer.parseInt(temp[2]);         // ‰‰à”
+
+        int applicant = 0;                              // ‰‰à‚ğs‚Á‚½Œó•âÒ
+        int[] applicantVote = new int[applicantCnt];    // Œó•âÒ‚²‚Æ‚ÌŠl“¾•[”
+        int getVote = 0;                                // Šl“¾•[
+
+        for (int i = 0; i < speech; i++) {
+
+            // ‰‰à‚ğs‚Á‚½Œó•âÒ‚ğæ“¾‚µ‚Ä‚¢‚­
+            applicant = Integer.parseInt(sc.nextLine());
+            for (int j = 0; j < applicantCnt; j++) {
+                getVote = calcApplicantVote(applicantCnt, applicantVote, applicant, i, vote);
+            }
+            applicantVote[applicant] = applicantVote[applicant] + getVote;
+        }
+
+        // Å‘½•[Šl“¾Ò‚ğæ“¾
+        getMax(applicantCnt, applicantVote);
+    }
+
+    /**
+        calcApplicantVote •[”‚ÌŒvZ
+        @param applicantCnt Œó•âÒ”
+        @param applicantVote Œó•âÒ‚²‚Æ‚ÌŠl“¾•[”
+        @param applicant ‰‰à‚ğs‚Á‚½Œó•âÒ
+        @param speechCnt Œ»İ‚Ì‰‰à‰ñ”
+        @param vote —LŒ Ò”
+        @return cnt Šl“¾•[”
+    **/
+    static int calcApplicantVote(
+        int applicantCnt, int[] applicantVote, int applicant, int speechCnt, int vote) {
+        
+        int cnt = 0;
+        for (int i = 0; i < applicantCnt; i++) {
+            
+            // ‰‰à‚ğs‚Á‚Ä‚¢‚È‚¢Œó•âÒ‚ª•[‚ğ‚Á‚Ä‚¢‚½‚ç1•[‚¸‚ÂŒ¸‚ç‚·
+            if (i != applicant && applicantVote[i] > 0) {
+                applicantVote[i]--;
+                cnt++;
+            }
+
+            // •‚“®•[‚ª‚ ‚Á‚½‚ç1•[Œ¸‚ç‚·
+            if (speechCnt < vote) {
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+
+    /**
+        getMax Å‘½•[Šl“¾Ò‚Ìæ“¾
+        @param applicantCnt Œó•âÒ”
+        @param applicantVote Œó•âÒ‚²‚Æ‚ÌŠl“¾•[”
+    **/
+    static void getMax(int applicantCnt, int[] applicantVote) {
+        
+        int max = applicantVote[0];
+        for (int i = 0; i < applicantCnt; i++) {
+            // Å‘½•[”‚ğæ“¾
+            if (i > 0 && applicantVote[i] > applicantVote[i - 1]) {
+                max = applicantVote[i];
+            }
+        }
+
+        for (int i = 0; i < applicantCnt; i++) {
+            if (applicantVote[i] == max) {
+                System.out.println(i + 1);
+            }
+        }
+    }
+
+}

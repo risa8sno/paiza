@@ -1,0 +1,40 @@
+import java.util.*;
+
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1行目：区画の長さを取得
+        String[] temp = sc.nextLine().split(" ");
+        int row = Integer.parseInt(temp[0]);        // 行
+        int column = Integer.parseInt(temp[1]);     // 列
+
+        int fence = 0;  // 柵の数
+        String[][] area = new String[row][column];
+
+        // 行列分でループ
+        for (int i = 0; i < row; i++) {
+            temp = sc.nextLine().split("");
+            for (int j = 0; j < column; j++) {
+
+                area[i][j] = temp[j];
+
+                // 花壇の場合は柵を追加する
+                if (area[i][j].equals("#")) {
+                    fence = fence + 4;
+
+                    // 前後左右が花壇の場合は柵を減らす
+                    if (j > 0 && area[i][j - 1].equals("#")) {
+                        fence = fence - 2;
+                    }
+                    if (i > 0 && area[i - 1][j].equals("#")) {
+                        fence = fence - 2;
+                    }
+
+                }
+            }
+        }
+        System.out.println(fence);
+    }
+}
