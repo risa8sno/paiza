@@ -8,42 +8,85 @@ public class Main {
         // 一辺の合計値を求める
         int lineSum = 0;
         int sum = 0;
-        for (int i = 1; i <= cnt*cnt; i++) {
+        for (int i = 1; i <= cnt * cnt; i++) {
             sum = sum + i;
         }
         lineSum = sum / cnt;
 
-        String line;
-        String temp;
-        String[] newLine = new String[cnt];
-
+        // 魔方陣の中身を2次元配列に格納
+        String[] tempLine = new String[cnt];
+        int[][] line = new int[cnt][cnt];
         for (int i = 0; i < cnt; i++) {
-            line = sc.nextLine();   // 次の行
-            newLine = line.split(" ");
-            temp = "";
-            sum = 0;
+            tempLine = sc.nextLine().split(" ");
+            for (int j = 0; j < tempLine.length; j++) {
+                line[i][j] = Integer.parseInt(tempLine[j]);
+            }
+        }
 
-            // 行の合計値を求める
+        // 行の合計値を求める
+        int[] tempSum = new int[cnt];
+        int k = 0;
+        Boolean flg;
+nextLoop:
+        for (int i = 0; i < cnt; i++) {
+            flg = false;
             for (int j = 0; j < cnt; j++) {
-                sum = sum + Integer.parseInt(newLine[j]);
-            }
-
-            // 行の合計値が一辺の合計値よりも小さい場合
-            if (sum < lineSum) {
-                for (int j = 0; j < cnt; j++) {
-                    if (Integer.parseInt(newLine[j]) == 0) {
-                        newLine[j] = String.valueOf(lineSum - sum);
-                    }
-                    if (j == 0) {
-                        temp = newLine[j];
-                    } else {
-                        temp = temp + " " + newLine[j];
-                    }
+                // 一辺に0が2つ以上あった場合、処理を抜ける
+                if (flg = true) {
+                    continue nextLoop;
                 }
-                System.out.println(temp);
-            } else {
-                System.out.println(line);
+                // 0があったらフラグを立てる
+                if (line[i][j] == 0) {
+                    flg = true;
+                }
+                tempSum[k] = tempSum[k] + line[i][j];
             }
+            k++;
+        }
+        
+
+        // 列の合計値を求める
+        tempSum = new int[cnt];
+        k = 0;
+        for (int j = 0; j < cnt; j++) {
+            for (int i = 0; i < cnt; i++) {
+                tempSum[k] = tempSum[k] + line[i][j];
+            }
+            k++;
         }
     }
 }
+	// 20210410修正前
+    //     String line;
+    //     String temp;
+    //     String[] newLine = new String[cnt];
+
+    //     for (int i = 0; i < cnt; i++) {
+    //         line = sc.nextLine();   // 次の行
+    //         newLine = line.split(" ");
+    //         temp = "";
+    //         sum = 0;
+
+    //         // 行の合計値を求める
+    //         for (int j = 0; j < cnt; j++) {
+    //             sum = sum + Integer.parseInt(newLine[j]);
+    //         }
+
+    //         // 行の合計値が一辺の合計値よりも小さい場合
+    //         if (sum < lineSum) {
+    //             for (int j = 0; j < cnt; j++) {
+    //                 if (Integer.parseInt(newLine[j]) == 0) {
+    //                     newLine[j] = String.valueOf(lineSum - sum);
+    //                 }
+    //                 if (j == 0) {
+    //                     temp = newLine[j];
+    //                 } else {
+    //                     temp = temp + " " + newLine[j];
+    //                 }
+    //             }
+    //             System.out.println(temp);
+    //         } else {
+    //             System.out.println(line);
+    //         }
+    //     }
+    // }
