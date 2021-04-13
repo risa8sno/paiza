@@ -1,0 +1,108 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 入力された2人の名前を取得
+        String[] names = sc.nextLine().split(" ");
+
+        // 変換用アルファベット格納配列
+        String[] alphabet = ("abcdefghijklmnopqrstuvwxyz").split("");
+
+        // 名前の要素の大きさの格納配列
+        List<Integer> nameSizeList = new ArrayList<>();
+
+        // case1：1人目 + 2人目
+        // 結合した名前を数字に変換する
+        nameSizeList = convertNameToNumber(names[0], names[1], alphabet);
+
+        // 結合した名前の要素数が1になるまで大きさを取得する
+        while (nameSizeList.size() != 1) {
+            nameSizeList = getNameSize(nameSizeList);
+        }
+        
+        // case1の要素の大きさ
+        int sum1 = nameSizeList.get(0);
+
+        // case1：2人目 + 1人目
+        // 結合した名前を数字に変換する
+        nameSizeList = new ArrayList<>();
+        nameSizeList = convertNameToNumber(names[1], names[0], alphabet);
+
+        // 結合した名前の要素数が1になるまで大きさを取得する
+        while (nameSizeList.size() != 1) {
+            nameSizeList = getNameSize(nameSizeList);
+        }
+        
+        // case2の要素の大きさ
+        int sum2 = nameSizeList.get(0);
+
+        // 大きい方を出力する
+        if (sum1 >= sum2) {
+            System.out.println(sum1);
+        } else {
+            System.out.println(sum2);
+        }
+    }
+
+    /**
+     * convertNameToNumber 名前を数字に変換する
+     * @param namesFirst 1人目の名前
+     * @param namesSecond 2人目の名前
+     * @param alphavet 変換用アルファベット格納配列
+     * @return nameSizeList 名前の要素数を格納する配列
+    **/
+    static List<Integer> convertNameToNumber(String namesFirst, String namesSecond, String[] alphabet) {
+
+        // 2人の名前を1文字ずつ分割して格納する配列初期化
+        List<String> nameList = new ArrayList<>();
+
+        // 1人目格納
+        String[] tempList1 = namesFirst.split("");
+        for (int i = 0; i < tempList1.length; i++) {
+            nameList.add(tempList1[i]);
+        }
+
+        // 2人目格納
+        String[] tempList2 = namesSecond.split("");
+        for (int i = 0; i < tempList2.length; i++) {
+            nameList.add(tempList2[i]);
+        }
+
+        // 要素数を格納して返すリスト初期化
+        List<Integer> nameSizeList = new ArrayList<>();
+
+        // アルファベットに対応する数字を取得
+        for (int i = 0; i < nameList.size(); i++) {
+            for (int j = 0; j < alphabet.length; j++) {
+                if (nameList.get(i).equals(alphabet[j])) {
+                    nameSizeList.add(j + 1);
+                    break;
+                }
+            }
+        }
+        return nameSizeList;
+    }
+
+    /**
+     * getNameSize 名前の要素数の大きさを求める
+     * @oaram nameSizeList 名前の要素数を格納した配列
+     * @return newList 要素数を計算し直した配列
+    **/
+    static List<Integer> getNameSize(List<Integer> nameSizeList) {
+
+        List<Integer> newList = new ArrayList<>();
+        for (int i = 0; i < nameSizeList.size() - 1; i++) {
+            
+            // 隣り合った要素の和を求める
+            // 101以上の場合は101を引いた数を新しいリストに入れ直す
+            if (nameSizeList.get(i) + nameSizeList.get(i + 1) > 101) {
+                newList.add(nameSizeList.get(i) + nameSizeList.get(i + 1) - 101);
+            } else {
+                newList.add(nameSizeList.get(i) + nameSizeList.get(i + 1));
+            }
+        }
+        return newList;
+    }
+}
