@@ -1,0 +1,54 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // ˆÚ“®ŠÔ
+        String[] temp = sc.nextLine().split(" ");
+        int homeToPaiza = Integer.parseInt(temp[0]);    // ©‘î‚©‚çƒpƒCƒU‰w
+        int paizaToGino = Integer.parseInt(temp[1]);    // ƒpƒCƒU‰w‚©‚çƒMƒm‰w
+        int ginoToOffice = Integer.parseInt(temp[2]);   // ƒMƒm‰w‚©‚ç‰ïĞ
+ 
+        // “dÔ‚Ì–{”
+        int trainCnt = Integer.parseInt(sc.nextLine());
+
+        // ‰ñ“š—pŠÔ
+        int hour = 0;
+        int min = 0;
+
+        for (int i = 0; i < trainCnt; i++) {
+
+            // “dÔ‚ÌŠÔ
+            temp = sc.nextLine().split(" ");
+            int tempHour = Integer.parseInt(temp[0]);   // ŠÔ
+            int tempMin = Integer.parseInt(temp[1]);    // •ª
+
+            int sumMin = 0;
+
+            // ƒpƒCƒU‰w‚©‚ç‰ïĞ‚Ü‚Å‚ÌŠÔ
+            sumMin = tempMin + paizaToGino + ginoToOffice;
+            while (sumMin >= 60) {
+                sumMin = sumMin - 60;
+                tempHour++;
+            }
+
+            // ’è‚ÉŠÔ‚É‡‚¤‚©
+            if ((tempHour >= 8 && sumMin >= 59) || (tempHour >= 9)) {
+                break;
+            } else {
+                hour = Integer.parseInt(temp[0]);
+                min = Integer.parseInt(temp[1]);
+            }
+        }
+
+        // ‰Æ‚ğo‚éŠÔ‚ğŒvZ
+        if (min - homeToPaiza < 0) {
+            min = min - homeToPaiza + 60;
+            hour--;
+        } else {
+            min = min - homeToPaiza;
+        }
+        System.out.println("0" + hour + ":" + min);
+    }
+}
