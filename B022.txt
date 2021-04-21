@@ -20,8 +20,9 @@ public class Main {
             applicant = Integer.parseInt(sc.nextLine());
             for (int j = 0; j < applicantCnt; j++) {
                 getVote = calcApplicantVote(applicantCnt, applicantVote, applicant, i, vote);
+                vote--;
             }
-            applicantVote[applicant] = applicantVote[applicant] + getVote;
+            applicantVote[applicant - 1] = applicantVote[applicant - 1] + getVote;
         }
 
         // Å‘½•[Šl“¾ŽÒ‚ðŽæ“¾
@@ -48,11 +49,11 @@ public class Main {
                 applicantVote[i]--;
                 cnt++;
             }
-
-            // •‚“®•[‚ª‚ ‚Á‚½‚ç1•[Œ¸‚ç‚·
-            if (speechCnt < vote) {
-                cnt++;
-            }
+System.out.println("i:" + i + " " + applicantVote[i]);
+        }
+        // •‚“®•[‚ª‚ ‚Á‚½‚ç1•[Œ¸‚ç‚·
+        if (speechCnt < vote) {
+            cnt++;
         }
         return cnt;
     }
@@ -63,9 +64,15 @@ public class Main {
         @param applicantVote Œó•âŽÒ‚²‚Æ‚ÌŠl“¾•[”
     **/
     static void getMax(int applicantCnt, int[] applicantVote) {
-        
+
         int max = applicantVote[0];
         for (int i = 0; i < applicantCnt; i++) {
+
+/*if (i > 0) {
+System.out.println("max:" + max);
+System.out.println("applicantVote[i]:" + applicantVote[i]);
+System.out.println("applicantVote[i-1]:" + applicantVote[i-1]);
+}*/
             // Å‘½•[”‚ðŽæ“¾
             if (i > 0 && applicantVote[i] > applicantVote[i - 1]) {
                 max = applicantVote[i];
@@ -78,5 +85,4 @@ public class Main {
             }
         }
     }
-
 }
