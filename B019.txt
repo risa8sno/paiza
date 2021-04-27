@@ -1,0 +1,73 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1行目取得
+        String[] temp = sc.nextLine().split(" ");
+        int n = Integer.parseInt(temp[0]);  // 元の画像サイズ
+        int k = Integer.parseInt(temp[1]);  // 縮小値
+        int newPic = n / k;                 // 縮小した画像サイズ
+
+        // 元の画像の画素値格納用配列
+        int[][] list = new int[n][n];
+
+        // n行分取得して格納用配列に画素値を格納
+        for (int i = 0; i < n; i++) {
+            temp = sc.nextLine().split(" ");
+            for (int j = 0; j < n; j++) {
+                list[i][j] = Integer.parseInt(temp[j]);
+            }
+        }
+
+        // 回答用配列
+        int[][] newList = new int[newPic][newPic];
+        int newRow = 0;
+        int newColumn = 0;
+
+        // n/kに画像を縮小した際の画素値の平均値を取得
+        for (int i = 0; i < n; i = i + k) {
+            newColumn = 0;
+            for (int j = 0; j < n; j = j + k) {
+                newList[newRow][newColumn] = getAverage(list, i, j, k);
+                newColumn++;
+            }
+            newRow++;
+        }
+
+        // 回答表示
+        String answer;
+        for (int i = 0; i < newPic; i++) {
+            answer = "";
+            for (int j = 0; j < newPic; j++) {
+                if (j == 0) {
+                    answer = Integer.toString(newList[i][j]);
+                } else {
+                    answer = answer + " " +  Integer.toString(newList[i][j]);
+                }
+            }
+            System.out.println(answer);
+        }
+    }
+
+    /**
+     * getAverage 画素値の平均値を取得
+     * @param list 画素値格納配列
+     * @param x  取得開始点
+     * @param y 取得終了点
+     * @param gasoCnt 画素数
+     * @return average 平均値
+    **/
+    static int getAverage(int[][] list, int x, int y, int gasoCnt) {
+        int average = 0;
+        int sum = 0;
+        for (int i = x; i < x + gasoCnt; i++) {
+            for (int j = y; j < y + gasoCnt; j++) {
+                sum = sum + list[i][j];
+            }
+        }
+        average = sum / (gasoCnt * gasoCnt);
+        return average;
+    }
+}

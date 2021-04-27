@@ -1,0 +1,75 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1行目
+        String temp[] = sc.nextLine().split(" ");
+        int hight = Integer.parseInt(temp[0]);              // 高さ
+        int width = Integer.parseInt(temp[1]);              // 幅
+        int keta = Integer.parseInt(temp[2]);               // 取得する値の桁数
+
+        String[][] tempList = new String[hight][width];     // 一時格納用リスト
+        int max = 0;                                        // 最大値
+
+        // マス目の高さ・幅分ループ
+        for (int i = 0; i < hight; i++) {
+
+            // 2行目以降を取得
+            temp = sc.nextLine().split("");
+            for (int j = 0; j < width; j++) {
+                tempList[i][j] = temp[j];
+
+                // 最大値を取得
+                max = getMax(tempList, i, j, max, keta);
+            }
+        }
+        System.out.println(max);
+    }
+
+    /**
+     * getMax 
+     * @param list 値格納用リスト
+     * @param row 行
+     * @oaram column 列
+     * @param max 最大値
+     * @param keta 取得桁数
+     * @return max 最大値
+    **/
+    static int getMax(String[][] list, int row, int column, int max, int keta) {
+
+        String criteria = "";   // 基準値
+
+        // 左右の比較
+        if (column >= keta - 1) {
+            criteria = list[row][column];
+
+            // 桁数分値を取得
+            for (int i = 1; i < keta; i++) {
+                criteria = list[row][column - i] + criteria;
+            }
+
+            // 最大値の比較
+            if (max < Integer.parseInt(criteria)) {
+                max = Integer.parseInt(criteria);
+            }
+        }
+
+        // 上下の比較
+        if (row >= keta - 1) {
+            criteria = list[row][column];
+
+            // 桁数分値を取得
+            for (int i = 1; i < keta; i++) {
+                criteria = list[row - i][column] + criteria;
+            }
+
+            // 最大値の比較
+            if (max < Integer.parseInt(criteria)) {
+                max = Integer.parseInt(criteria);
+            }
+        }
+        return max;
+    }
+}
