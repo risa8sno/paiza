@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 public class Main {
     public static void main(String[] args) {
         // Ž©•ª‚Ì“¾ˆÓ‚ÈŒ¾Œê‚Å
@@ -41,4 +40,3 @@ public class Main {
         System.out.println(unchin);
     }
 }
-
