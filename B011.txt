@@ -1,0 +1,44 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String temp[] = sc.nextLine().split(" ");
+        int pocketCnt = Integer.parseInt(temp[0]);
+        int criteria = Integer.parseInt(temp[1]);
+
+        int over = criteria % pocketCnt;
+
+        // 1ページ目の場合
+        if (criteria <= pocketCnt) {
+
+            System.out.println(criteria + 
+                2 * (pocketCnt - criteria) + 1
+            );
+
+        // 2ページ目の場合
+        } else if (criteria <= 2 * pocketCnt)  {
+
+            System.out.println(criteria - 
+                2 * (criteria - pocketCnt) + 1
+            );
+            
+        // 3ページ目以降偶数ページの場合
+        } else if (criteria / pocketCnt % 2 == 1) {
+
+            System.out.println(criteria - 
+                2 * (pocketCnt - (pocketCnt * (criteria / pocketCnt + 1) - criteria)) + 1
+            );
+
+        // 3ページ目以降奇数ページの場合
+        } else {
+
+            System.out.println(criteria + 
+                2 * (pocketCnt * (criteria / pocketCnt + 1) - criteria) + 1
+            );
+            
+        }
+
+    }
+}

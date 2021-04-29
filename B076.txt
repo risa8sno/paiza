@@ -1,0 +1,78 @@
+import java.util.*;
+
+
+public class Main {
+
+    // 定数の宣言
+    public static final String BAKE = "bake";
+    public static final String BUY = "buy";
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+        String[] temp = sc.nextLine().split(" ");
+
+        // 1行目
+        int bread = Integer.parseInt(temp[0]);  // パンの種類
+        int query = Integer.parseInt(temp[1]);      // クエリ回数
+
+        // パンの金額と初期在庫を取得
+        int[][] breadList = new int[bread][2];
+        for (int i = 0; i < bread; i++) {
+            temp = sc.nextLine().split(" ");
+            breadList[i][0] = Integer.parseInt(temp[0]);   // パンの金額
+            breadList[i][1] = Integer.parseInt(temp[1]);   // パンの初期在庫
+        }
+
+        // クエリの取得
+        int answer = 0;
+        
+        for (int i = 0; i < query; i++) {
+            answer = 0;
+            temp = sc.nextLine().split(" ");
+
+            // パンが焼けた時
+            if (temp[0].equals(BAKE)) {
+                breadList = calcStock(temp, breadList, bread);
+            } else {
+                breadList = calcFee(temp, breadList, bread);
+            }
+        }
+    }
+
+    /**
+     * calcStock パンが焼けた時に在庫を増やす
+    **/
+    static int[][] calcStock(String[] queryList, int[][] breadList, int bread) {
+        for (int i = 1; i <= bread; i++) {
+            breadList[i - 1][1] = breadList[i - 1][1] + Integer.parseInt(queryList[i]);
+        }
+        return breadList;
+    }
+    
+    /**
+     * calcFee パンが売れた時に金額を計算
+    **/
+    static int[][] calcFee(String[] queryList, int[][] breadList, int bread) {
+
+        int[] tempBreadList = new int[bread];
+        int fee = 0;
+        for (int i = 1; i <= bread; i++) {
+            tempBreadList[i - 1] = breadList[i - 1][1];
+            tempBreadList[i - 1] = tempBreadList[i - 1] - Integer.parseInt(queryList[i]);
+
+            // 在庫が足りなかったとき
+            if (tempBreadList[i - 1] < 0) {
+                System.out.println(-1);
+                return breadList;
+            } else {
+                fee = fee + breadList[i - 1][0] * Integer.parseInt(queryList[i]);
+            }
+        }
+        System.out.println(fee);
+        for (int i = 0; i < bread; i++) {
+            breadList[i][1] = tempBreadList[i];
+        }
+        return breadList;
+    }
+}
