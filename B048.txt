@@ -1,0 +1,83 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1行目
+        String[] temp = sc.nextLine().split(" ");
+        int masu = Integer.parseInt(temp[0]);   // ビンゴのマス数
+        int call = Integer.parseInt(temp[1]);   // 読み上げ回数
+
+        // 2行目以降：ビンゴカードを取得
+        int[][] bingoCard = new int[masu][masu];
+        for (int i = 0; i < masu; i++) {
+
+            temp = sc.nextLine().split(" ");
+            for (int j = 0; j < masu; j++) {
+                bingoCard[i][j] = Integer.parseInt(temp[j]);
+            }
+        }
+
+        // 読み上げた数を取得から空いているマスを取得
+NEXT:
+        while (sc.hasNextLine()) {
+            int number = Integer.parseInt(sc.nextLine());
+
+            // 読み上げた数がビンゴカードにあったら0にする
+            for (int i = 0; i < masu; i++) {
+                for (int j = 0; j < masu; j++) {
+                    if (bingoCard[i][j] == number) {
+                        bingoCard[i][j] = 0;
+                        continue NEXT;
+                    }
+                }
+            }
+        }
+
+        // 空いていないマスを空けたらビンゴ数はいくつになるか
+        int max = 0;
+        for (int i = 0; i < masu; i++) {
+            for (int j = 0; j < masu; j++) {
+
+                int bingo = 0;
+                if (bingoCard[i][j] != 0) {
+                    bingo = getBingoCnt(bingoCard, i, j, masu);
+                    if (max < bingo) {
+                        max = bingo;
+                    }
+                }
+            }
+        }
+        System.out.println(max);
+    }
+
+    /**
+     * 
+    **/
+    static int getBingoCnt(int[][] bingoCard, int row, int column, int masu) {
+
+        boolean flg = true;
+        int cnt = 0;
+
+        // 横のビンゴ数
+        for (int i = 0; i < masu; i++) {
+            flg = true;
+            for (int j = 0; j < masu; j++) {
+                if (i == row && j == column) {
+                    bingoCard[i][j] = 0;
+                }
+                if (bingoCard[i][j] != 0) {
+                    flg = false;
+                    break;
+                }
+            }
+System.out.println(i + String.valueOf(flg));
+            if (flg) {
+                cnt++;
+            }
+        }
+
+        return cnt;
+    }
+}

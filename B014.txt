@@ -1,0 +1,58 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] line = sc.nextLine().split(" ");
+        int x = Integer.parseInt(line[0]);    // 奥行
+        int y = Integer.parseInt(line[1]);    // 幅
+        int z = Integer.parseInt(line[2]);    // 高さ
+
+        String[][] answerLine = new String[z][y];    // 回答
+        int xCnt = 0;   // 奥行
+        int zCnt = 0;   // 高さ
+
+        for (;;) {
+
+            // 入力値がある分はループ
+            if (!sc.hasNextLine()) {
+                break;
+            }
+
+            // 入力値を取得
+            line = sc.nextLine().split("");
+            if (line[0].equals("-")) {
+                zCnt++;
+                continue;
+            }
+
+            // 回答用のリストに格納
+            for (int i = 0; i < y; i++) {
+                if (line[i].equals("#")) {
+                    answerLine[zCnt][i] = "#";
+                } else if (answerLine[zCnt][i] == null || answerLine[zCnt][i].equals(".")) {
+                    answerLine[zCnt][i] = ".";
+                }
+            }
+
+            // xCnt初期化（奥行）
+            if (xCnt == x - 1) {
+                xCnt = 0;
+            } else {
+                xCnt++;
+            }
+
+        }
+
+        // 出力
+        for (int i = z - 1; i >= 0; i--) {
+
+            String answer = "";
+            for (int j = 0; j < y; j++) {
+                answer = answer + answerLine[i][j];
+            }
+            System.out.println(answer);
+
+        }
+    }
+}

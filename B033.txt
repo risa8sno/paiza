@@ -1,0 +1,72 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1行目：カラム数
+        int column = Integer.parseInt(sc.nextLine());
+
+        // 2行目：カラム名
+        String columnName[] = sc.nextLine().split(" ");
+        int[] maxLength = new int[column];
+        for (int i = 0; i < column; i++) {
+            if (maxLength[i] < columnName[i].length()) {
+                maxLength[i] = columnName[i].length();
+            }
+        }
+
+        // 3行目：データ数
+        int data = Integer.parseInt(sc.nextLine());
+
+        // 4行目以降：データ内容
+        String[] temp = new String[column];
+        String[][] line = new String[data][column];
+        for (int i = 0; i < data; i++) {
+            temp = sc.nextLine().split(" ");
+            for (int j = 0; j < column; j++) {
+                line[i][j] = temp[j];
+                if (maxLength[j] < temp[j].length()) {
+                    maxLength[j] = temp[j].length();
+                }
+            }
+        }
+
+        // 出力
+        String answer = "";
+        for (int i = 0; i < data + 2; i++) {
+            answer = "|";
+
+                // カラム名
+                if (i == 0) {
+                    for (int j = 0; j < column; j++) {
+                        answer = answer + " " + columnName[j];
+                        for (int k = 0; k < maxLength[j] - columnName[j].length(); k++) {
+                            answer = answer + " ";
+                        }
+                        answer = answer + " |";
+                    }
+
+                // 仕切り行
+                } else if (i == 1) {
+                    for (int j = 0; j < column; j++) {
+                        for (int k = 0; k < maxLength[j] + 2; k++) {
+                            answer = answer + "-";
+                        }
+                        answer = answer + "|";
+                    }
+
+                // データ行
+                } else {
+                    for (int j = 0; j < column; j++) {
+                        answer = answer + " " + line[i - 2][j];
+                        for (int k = 0; k < maxLength[j] - line[i - 2][j].length(); k++) {
+                            answer = answer + " ";
+                        }
+                        answer = answer + " |";
+                    }
+                }
+            System.out.println(answer);
+        }
+    }
+}

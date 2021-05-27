@@ -1,0 +1,82 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1行目 マスの大きさ
+        int blockSize = Integer.parseInt(sc.nextLine());
+
+        // 2行目以降 マスの内容を取得
+        String[] temp = new String[blockSize];              // 一次格納用
+        int[][] hightLine = new int[blockSize][blockSize];  // 標高格納用
+        for (int i = 0; i < blockSize; i++) {
+            temp = sc.nextLine().split(" ");
+            for (int j = 0; j < blockSize; j++) {
+                hightLine[i][j] = Integer.parseInt(temp[j]);
+            }
+        }
+
+        // 頂上を探す
+        int[] answer = new int[blockSize * blockSize];
+        int cnt = 0;
+        for (int i = 0; i < blockSize; i++) {
+            for (int j = 0; j < blockSize; j++) {
+                answer[cnt] = getTop(hightLine, blockSize, i, j);
+                cnt++;
+            }
+        }
+
+        // 降順に出力
+        Arrays.toString(answer);
+        Arrays.sort(answer);
+        for (int i = 0, j = answer.length - 1; i < j; i++, j--){
+            int tempNumber = answer[i];
+            answer[i]  = answer[j];
+            answer[j] = tempNumber;
+        }
+        for (int i = 0; answer[i] != 0; i++) {
+            System.out.println(answer[i]);
+        }
+    }
+
+    /**
+     * getTop 頂上を探す
+     * @param hightLine 各マスの標高格納用配列
+     * @param blockSize マスの大きさ
+     * @param i 基準値の位置（行）
+     * @param j 基準値の位置（列）
+     * @return 頂上
+    **/
+    static int getTop(int[][] hightLine, int blockSize, int i, int j) {
+
+        int criteria = hightLine[i][j];     // 比較する標高
+        Boolean flg = true;
+
+        // 上端以外の時
+        if (i != 0 && hightLine[i][j] <= hightLine[i - 1][j]) {
+            flg = false;
+            return 0;
+        }
+
+        // 左端以外の時
+        if (j != 0 && hightLine[i][j] <= hightLine[i][j - 1]) {
+            flg = false;
+            return 0;
+        }
+
+        // 右端以外の時
+        if (j != blockSize - 1 && hightLine[i][j] <= hightLine[i][j + 1]) {
+            flg = false;
+            return 0;
+        }
+
+        // 下端以外の時
+        if (i != blockSize - 1 && hightLine[i][j] <= hightLine[i + 1][j]) {
+            flg = false;
+            return 0;
+        }
+        return criteria;
+    }
+    
+}

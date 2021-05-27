@@ -1,0 +1,50 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 1行目：マス数
+        String[] temp = sc.nextLine().split(" ");
+        int hight = Integer.parseInt(temp[0]);  // 高さ
+        int width = Integer.parseInt(temp[1]);  // 幅
+
+        // 2行目以降
+        int[][] line = new int[hight][width];
+        for (int i = 0; i < 2; i++) {
+            temp = sc.nextLine().split(" ");
+            for (int j = 0; j < 2; j++) {
+                line[i][j] = Integer.parseInt(temp[j]);
+            }
+        }
+
+        // 3行目以降の1・2列目の計算
+        for (int i = 0; i < 2; i++) {
+            int diff = line[1][i] - line[0][i];
+            for (int j = 2; j < hight; j++) {
+                line[j][i] = line[j - 1][i] + diff;
+            }
+        }
+
+        // 3列目以降の計算
+        for (int i = 0; i < hight; i++) {
+            int diff = line[i][1] - line[i][0];
+            for (int j = 2; j < width; j++) {
+                line[i][j] = line[i][j - 1] + diff;
+            }
+        }
+
+        // 出力
+        for (int i = 0; i < hight; i++) {
+            String answer = "";
+            for (int j = 0; j < width; j++) {
+                if (j == 0) {
+                    answer = String.valueOf(line[i][j]);
+                } else {
+                    answer = answer + " " + String.valueOf(line[i][j]);
+                }
+            }
+            System.out.println(answer);
+        }
+    }
+}

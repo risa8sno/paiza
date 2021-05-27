@@ -1,0 +1,137 @@
+import java.util.*;
+
+public class Main {
+
+    public static final String CREAM = "#";
+    public static final String STRAWBERRY = "@";
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] temp = sc.nextLine().split(" ");
+
+        // 1行目 ケーキの大きさ
+        int hight = Integer.parseInt(temp[0]);
+        int width = Integer.parseInt(temp[1]);
+
+        // 2行目以降 イチゴの有無
+        String[][] cake = new String[width][hight];
+        for (int i = 0; i < hight; i++) {
+            temp = sc.nextLine().split("");
+            for (int j = 0; j < width; j++) {
+                cake[j][i] = temp[j];
+            }
+        }
+
+        // 不公平度の低い切り分け方を探す
+        int tempEquality = 0;
+        int equality = hight * width + (hight * width) * (hight * width);
+        int x = 0;
+        int y = 0;
+        for (int i = 1; i < hight; i++) {
+            for (int j = 1; j < width; j++) {
+                tempEquality = getEquality(cake, hight, width, j, i);
+                if (equality > tempEquality) {
+                    equality = tempEquality;
+                    x = j;
+                    y = i;
+                }
+            }
+        }
+        System.out.println(String.valueOf(y) + " " + String.valueOf(x));
+    }
+
+    /**
+     * getEquality 満足度を取得
+    **/
+    static int getEquality(String[][] cake, int hight, int width, int x, int y) {
+
+        int min = 0;                // 最小値
+        int max = 0;                // 最大値
+        int strawberryCnt = 0;      // イチゴの数
+        int tempSatisfaction = 0;   // 満足度格納用
+
+// System.out.println("(x, y):(" + x + ", " + y + ")");
+
+        // 1人目：左上
+        for (int i = 0; i < y; i++) {
+            for (int j = 0; j < x; j++) {
+                if (cake[j][i].equals(STRAWBERRY)) {
+                    strawberryCnt++;
+                }
+            }
+        }
+        max = x * y + strawberryCnt * strawberryCnt;
+        min = x * y + strawberryCnt * strawberryCnt;
+
+// System.out.println("左上:" + min);
+
+        // 2人目：右上
+        strawberryCnt = 0;
+        for (int i = 0; i < y; i++) {
+            for (int j = x; j < width; j++) {
+                if (cake[j][i].equals(STRAWBERRY)) {
+                    strawberryCnt++;
+                }
+            }
+        }
+        tempSatisfaction = (width- x) * y + strawberryCnt * strawberryCnt;
+// System.out.println("右上:" + tempSatisfaction);
+
+        // 満足度の比較
+        if (max < tempSatisfaction) {
+            max = tempSatisfaction;
+        } else if (max > tempSatisfaction) {
+            min = tempSatisfaction;
+        }
+// System.out.println("max:" + max);
+// System.out.println("min:" + min);
+
+        // 3人目：左下
+        strawberryCnt = 0;
+        for (int i = y; i < hight; i++) {
+            for (int j = 0; j < x; j++) {
+                if (cake[j][i].equals(STRAWBERRY)) {
+                    strawberryCnt++;
+                }
+            }
+        }
+        tempSatisfaction = x * (hight - y) + strawberryCnt * strawberryCnt;
+// System.out.println("左下:" + tempSatisfaction);
+
+        // 満足度の比較
+        if (max < tempSatisfaction) {
+            max = tempSatisfaction;
+        } else if (max > tempSatisfaction) {
+            min = tempSatisfaction;
+        }
+// System.out.println("max:" + max);
+// System.out.println("min:" + min);
+
+        // 4人目：右下
+        strawberryCnt = 0;
+        for (int i = y; i < hight; i++) {
+            for (int j = x; j < width; j++) {
+                if (cake[j][i].equals(STRAWBERRY)) {
+                    strawberryCnt++;
+                }
+            }
+        }
+        tempSatisfaction = (width - x) * (hight - y) + strawberryCnt * strawberryCnt;
+// System.out.println("右下:" + tempSatisfaction);
+
+        // 満足度の比較
+        if (max < tempSatisfaction) {
+            max = tempSatisfaction;
+        } else if (max > tempSatisfaction) {
+            min = tempSatisfaction;
+        }
+// System.out.println("max:" + max);
+// System.out.println("min:" + min);
+
+        // 不公平度を取得
+        int equality = max - min;
+// System.out.println("equality:" + equality);
+// System.out.println("---------------------");
+        return equality;
+    }
+}
